@@ -79,7 +79,7 @@ def applyTemplateInt(widget, name, template, data, templateType=htmlTemplate, fr
     # u'''Выводит на печать шаблон печати по имени name с кодом template и данными data'''
     pageFormat = CPageFormat(pageSize=CPageFormat.A4, orientation=CPageFormat.Portrait, leftMargin=5, topMargin=5, rightMargin=5,  bottomMargin=5)
     
-	# TreOne: Сохраняем данные для отладки печатной формы
+    # TreOne: Сохраняем данные для отладки печатной формы
     if QtGui.qApp.isPrintDebugEnabled:
         QtGui.qApp.debugPrintData.template = template
         QtGui.qApp.debugPrintData.data = data
