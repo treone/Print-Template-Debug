@@ -12,8 +12,8 @@ https://youtu.be/OAk_T5k4z1g
 
 _s11main.main():~7494_
 ```python
-# TreOne: Кастомные аргументы
 ...
+    # TreOne: Кастомные аргументы
     parser.add_option(
         '--itnov_debug',
         dest='isPrintDebugEnabled',
