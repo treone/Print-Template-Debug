@@ -13,6 +13,7 @@ from PyQt4 import QtGui
 from PyQt4.QtCore import QString
 from PyQt4.QtGui import QStandardItem
 
+from Events.ActionInfo import CActionInfo
 from itnovPackages.PrintDebug.TemplateDataShowTableView import TemplateDataShowTableView, VARIABLE_NAME_ROLE, \
     VARIABLE_VALUE_ROLE
 from itnovPackages.PrintDebug.Utils import createChildRow
@@ -34,6 +35,7 @@ def connectPlugins():
         TemplateDataShowTableView.registerViewPlugin(CustomRowsListView)  # Helper для внутренних списков
 
         TemplateDataShowTableView.registerViewPlugin(CInfoListView)  # Представление для объектов класса CInfoList
+        TemplateDataShowTableView.registerViewPlugin(ActionInfoView)  # Представление для объектов класса CActionInfo
         TemplateDataShowTableView.registerViewPlugin(SmartDictView)  # Представление для объектов класса smartDict
 
         TemplateDataShowTableView.registerViewPlugin(ListView)  # Представление для списков
@@ -298,6 +300,43 @@ class DictView(GeneralTypeView):
             childRow = createChildRow(key, value)
             childrenList.append(childRow)
         return childrenList or [QStandardItem(u'Нет элементов...')]
+
+
+class ActionInfoView(ObjectTypeView):
+    """Представление для объектов класса Events.ActionInfo.CActionInfo"""
+
+    def __init__(self, variable):
+        super(ActionInfoView, self).__init__(variable)
+
+    def toString(self):
+        if hasattr(self._variable, 'name'):
+            return u'Действие "%s"' % self._variable.name
+        else:
+            return super(ActionInfoView, self).toString()
+
+    @staticmethod
+    def isApplicable(variable):
+        return isinstance(variable, CActionInfo)
+
+    def getType(self):
+        return u'Действие (CActionInfo)'
+
+    def hasChildren(self):
+        return True
+
+    def getChildrenList(self):
+        childrenList = super(ActionInfoView, self).getChildrenList()
+        boldFont = QtGui.QFont()
+        boldFont.setBold(True)
+        propsList = CustomRowsList([])
+        for prop in self._variable:
+            childRow = createChildRow(unicode(prop), prop)
+            propsList.append(childRow)
+        propsFieldsItem = QStandardItem(u'СВОЙСТВА ДЕЙСТВИЯ: {}'.format(len(propsList)))
+        propsFieldsItem.setFont(boldFont)
+        propsFieldsItem.setData(propsList, VARIABLE_VALUE_ROLE)
+        childrenList.insert(0, [propsFieldsItem])
+        return childrenList
 
 
 class SmartDictView(ObjectTypeView):
