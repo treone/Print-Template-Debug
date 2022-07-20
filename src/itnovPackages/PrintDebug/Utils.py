@@ -26,7 +26,7 @@ class DebugPrintData:
 
 
 def createChildRow(variableName, variableValue):
-    # type: (str, Any) -> List[QStandardItem]
+    # type: (unicode, Any) -> List[QStandardItem]
     """Возвращает строку с представлением переменной для дерева переменных (TemplateDataShowTableView)."""
     childItem = QStandardItem(variableName)
     childItem.setData(variableName, VARIABLE_NAME_ROLE)
