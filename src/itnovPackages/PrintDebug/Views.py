@@ -111,6 +111,8 @@ class ObjectTypeView(GeneralTypeView):
         privateFields = []
         publicFields = []
         for fieldName in dir(self._variable):
+            if not hasattr(self._variable, fieldName):
+                continue
             attr = getattr(self._variable, fieldName)
             if callable(attr):
                 methods.append(fieldName + '()')
